@@ -14,7 +14,6 @@ app.post('/kontakt', async (req, res) => {
     return res.status(400).json({ error: 'Molimo ispunite sva obavezna polja.' });
   }
 
-  // Configure Nodemailer for cPanel SMTP
   const transporter = nodemailer.createTransport({
     host: 'mail.kehsef.hr',
     port: 587,
@@ -29,11 +28,9 @@ app.post('/kontakt', async (req, res) => {
   });
 
   try {
-    // Verify connection
     await transporter.verify();
     console.log('✓ SMTP connection verified');
 
-    // Send email to company
     await transporter.sendMail({
       from: `"${name}" <${process.env.MAIL_USER}>`,
       replyTo: email,
@@ -67,14 +64,9 @@ app.post('/kontakt', async (req, res) => {
   }
 });
 
-// Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📧 Email configured for: ${process.env.MAIL_USER}`);
-});
+// For Vercel
+module.exports = app;

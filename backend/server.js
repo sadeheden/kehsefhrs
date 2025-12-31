@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(cors({ origin: 'http://kehsef.hr' }));
+app.use(cors());
 app.use(express.json());
 
 app.post('/contact', async (req, res) => {
